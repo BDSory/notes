@@ -1,0 +1,11 @@
+.querySelector() - a method on class Document; returns first Element within the document that matches a specified selector
+
+DOM Node - like Document, is an interface (think 'API'); an abstract base class, which means there is no plain Node object (there is a thing called 'square' but there is no such thing as 'shape'). 'Document' and 'Element' are subclasses. 
+    *its parent is EventTarget
+    sample methods on the class: Node.appendChild(),
+
+Base64 encoding: for way fewer characters than ASCII; take ASCII code, get the numbers, convert to Base64 standard. Expressed in 6 digits.
+'s': ASCII, 115; 01110011, binary; join the 's' and all other letters; split out into groups of 6 chars; 'sec' converts to 'c2Vj'
+
+btoa('string') converts to Base64; atob('Base64') reverses
+

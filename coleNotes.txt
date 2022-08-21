@@ -1,0 +1,166 @@
+**other notes in Linux VS Code for this js course.
+
+--The DOM
+-a js representation of a webpage; a js 'window' (hence why it's called that, the global scope); the DOM either is a bunch of objects or it turns everything on a webpage into a bunch of objects that js can interact with.
+
+how many h1s are on a page, how many entries in a form; click and hover functions;  
+
+the DOM IS a bunch of objects...what turned it into that was the browser. 
+
+The DOM is a virtual representation of html/css, all in js
+The DOM is a programming interface for web documents, represents the document as nodes and objects (? does document have a definition? )
+**document discussed here: https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction
+
+A web page is a document that can either be displayed in the browser WINDOW or as the HTML source. 
+
+**I am thinking that in the browsers code (which must be huge and complex), there are jillions of methods that convert a wild array of html/css and js to one unified DOM object. 
+
+--DOM manipulating: Selecting
+getElementById -  const img = document.getElementById(string)
+                  console.dir(img) //without assignment, we'd get html...way we just did that gives us the object of the value at the id string.
+
+getElementsByTagName('input') //will return all the inputs; the output looks like an array...it's not, it's just 3 objects. Its name is HTMLCollection...it's called 'array like'.
+
+getElementsByClassName() - duh
+
+don't have to call any of these only on the document.
+
+--querySelector and All: swiss army knife...by .class, by id, by tagName(say element instead)
+The diff: selector returns just 1 object, first match only...the return type is an object. All gets them all and returns as a collection of objects. (let's define this if necessary)
+*the reason to know HTML/CSS is that we can get uber specific with the params in the selector method...really targeted...and how that's done is like (li.special) and that syntax extends from how the CSS is targeting the HTML doc. And I think I can figure out that pattern pretty easily by just doing. 
+*All returns a collection called a Node list, another lightweight limited performance array-like thing. 
+
+--innerText and textContent
+innerText will bring back exactly what was rendered to the page, whereas textContent is accessing the actual element targeted and bringing back everything, such as weird styling like bold tags
+
+--innerHTML
+for DOM manipulation, this correctly interprets HTML elements, whereas innerText does not.
+*not really sure what it's used for, or the previous one
+--value, src, href, and others. These are all properties that we can access directly on individual elements.
+
+-Finding parent/children/siblings
+self explanatory; search google or mdn
+
+--.style
+*only reads the style property if inline, which is rare
+is used to use js to style elements on page in real time; resets styles as inline, or another way, uses inline to overwrite the stylesheet 
+whatever the css property name is will have a -, same name in js just camelcased.
+*another way to get the styles using a loop...method to follow
+
+--getComputedStyle...which we can't with style
+Ex:
+const li = document.querySelector('li')
+const styles = getComputedStyle(li)
+styles //opens up the style object that is styling that first li; CSS style declaration is name of that object
+
+--appendChild is older and more limiting, works in all browsers
+-append is newer, takes multiple args, and doesn't work in innerHTML
+-removeChild
+const deleted = ul.removeChild(removeMe) //notice that after a li element assigned to a var (by me) called removeMe is removed, it persists, so I stored it to a variable deleted. This is useful in case I need to use them later.
+--remove
+newer one, sibling of append. It's just ex > h1.remove()...done.
+
+--Events (a small taste)
+click, drag, drop, hover, scroll, form submission, key press, focus/blur, mouse wheel, doub click, copy, paste, audio start, screen resize, print
+triggers differ, pattern same
+the thing    event type     code to return
+button        click           change color
+
+*cole doesn't like any 'on' click, etc methods. Not explained. 
+
+--method on the event object, preventDefault(); ex: default for submit is to go somewhere, e.preventDefault() will stop that behavior. 
+
+ javascript is a language that is IMPLEMENTED in the browser. in the case of async, the browser is doing the work. 
+*most browsers are written in C++
+
+--a promise is a returned object to which you attach callbacks instead of passing callbacks into a function.
+resolve and reject are functions. From MDN: The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+
+--promises and callbacks were covered so we could set up Requests: xmlhttp, fetch, axios-a third party script that simplifies Requests
+AJAX-asychronous javascript and json; related to SPA, not loading a whole new page from a server based on a request but rather using javascript to update the elements on the page. Way faster, better UX. 
+
+XML-JSON and XML are both just data transfer formats. XML very sim in syntax to HTML, tags, but v diff purpose.
+*can parse xml into a javascript object
+JSON-newer version, same purpose as xml.  
+
+chain fetch requests - avoids messy nested callbacks; using promises;  
+fetch is dramatically better than XHR (XML HTTP Requests) and Axios is better than both.
+--Axios: A library for making HTTP requests (there are many)
+ 
+--*review/refresh
+A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+
+async functions are syntax for creating and consuming promises. You might be wondering, "Why use the word 'resolved' when things are still up in the air?" It's because of the irrevocability I mentioned earlier: once a promise is resolved, nothing can change what's going to happen to it. You'll sometimes hear resolved/unresolved called "fates" to differentiate them from the states "pending," "fulfilled," and "rejected. https://thenewtoys.dev/blog/2021/02/08/lets-talk-about-how-to-talk-about-promises/
+
+OOP - 
+--object prototypes: the mechanism by which objects inherit features from one another. It's a template. Methods and properties, each array for example, has a reference to proto, in which all these things are stored. 
+*I can define my own array object and set it equal to Array.prototype and inherit all those methods. 
+Ex: String.prototype.yell = function () {console.log(this.toUpperCase())}; //anyString.yell is now available. 
+
+This is all about patterns, ways to model data. Ex: colors have many modeling methods: rgb, hexidecimal, hsl, rgba(alpha channel for opacity). HSL - hue, saturation, light.
+
+new: operator; Classes can only be instantiated with the new operator — attempting to call a class without new will throw a TypeError. 
+
+--JS Classes...a better way to do Constructor; syntactic sugar
+class Color {
+    //constructor is a function that executes immed when a new Color is instantiated
+    constructor(r, g, b, name){
+         this.r = r;
+         this.g = g;
+         this.b = b;
+         this.name = name;
+    }
+    rgb(){
+        const {r,g,b} = this;
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+}
+
+*a function expression is a function without the function keyword and they're usually(or always?) unnamed.
+parens in arrow functions can be omitted if 1 argument; if there are no arguments, gotta have them.
+*implicit returns: you omit the return keyword; 
+const square3 = n => n*n; //return is implicit
+
+*arrow function with destructuring/great example: 
+const inventory = [
+  {name: 'apples', quantity: 2},
+  {name: 'bananas', quantity: 0},
+  {name: 'cherries', quantity: 5}
+];
+
+const result = inventory.find(({ name }) => name === 'cherries');
+
+console.log(result) // { name: 'cherries', quantity: 5 }
+
+--understanding debounce
+because we're javascript developers, we're doing stuff like calling the api after some time elapse after the user's last input, not after a physical return, e.g. query IMDBAPI after 1 second of no inputs, indicative of possibly finished. Debouncing is the process of holding off that query until some condition(s) is met, e.g. time, in this most simple example. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
